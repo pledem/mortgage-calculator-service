@@ -11,11 +11,11 @@ Mappings:
   #
   SubnetConfig:
     VPC:
-      CIDR: '10.0.0.0/16'
+      CIDR: '10.1.0.0/16'
     PublicOne:
-      CIDR: '10.0.0.0/18'
+      CIDR: '10.1.0.0/18'
     PublicTwo:
-      CIDR: '10.0.64.0/18'
+      CIDR: '10.1.64.0/18'
 Resources:
   # VPC in which containers will be networked.
   # It has two public subnets.
