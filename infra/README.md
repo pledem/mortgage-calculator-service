@@ -1,0 +1,1 @@
+sam deploy --template-file parent.yml --stack-name mortgage-calc-ecs-cluster --resolve-s3 --capabilities CAPABILITY_IAM

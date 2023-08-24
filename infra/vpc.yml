@@ -1,5 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: This stack deploys a large AWS VPC with internet access
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: production
+    Description: A name for the environment that this cloudformation will be part of.
+
 Mappings:
   # Hard values for the subnet masks. These masks define
   # the range of internal IP addresses that can be assigned.
@@ -86,7 +92,15 @@ Outputs:
   VpcId:
     Description: The ID of the VPC that this stack is deployed in
     Value: !Ref 'VPC'
-  PublicSubnetIds:
-    Description: Comma seperated list of public facing subnets that have
-                 a direct internet connection as long as you assign a public IP
-    Value: !Sub '${PublicSubnetOne},${PublicSubnetTwo}'
+    Export:
+      Name: !Sub '${EnvironmentName}:VPCId' 
+  PublicSubnetOne:
+    Description: Public subnet one
+    Value: !Ref 'PublicSubnetOne'
+    Export:
+      Name: !Sub '${EnvironmentName}:PublicSubnetOne'
+  PublicSubnetTwo:
+    Description: Public subnet two
+    Value: !Ref 'PublicSubnetTwo'
+    Export:
+      Name: !Sub '${EnvironmentName}:PublicSubnetTwo'
