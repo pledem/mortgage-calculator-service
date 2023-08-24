@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mortgage-calculator
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: mortgage-calculator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mortgage-calculator-deployment
+  namespace: default
+  labels:
+    app: mortgage-calculator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mortgage-calculator
+  template:
+    metadata:
+      labels:
+        app: mortgage-calculator
+    spec:
+      containers:
+      - name: mortgage-calculator-app-container
+        image: 267244386833.dkr.ecr.us-east-1.amazonaws.com/mortgagecalculatorfaf80424/expressfunction9fcbc1barepo:expressfunction-c68ba8eb4fac-v1
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "0.25"
+        ports:
+          - name: web
+            containerPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "parthpg-fargate-lab-ingress"
+  namespace: "default"
+  annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/load-balancer-name: parthpg-fargate-alb
+      alb.ingress.kubernetes.io/group.name: fargate-apps
+      alb.ingress.kubernetes.io/tags: Owner=parthpg,Team=GFS
+  labels:
+    app: parthpg-fargate-lab
+spec:
+  ingressClassName: alb
+  rules:
+    - host: mc.eks.panditlabs.online
+      http:
+        paths:
+          - path: /rate
+            pathType: Exact
+            backend:
+              service:
+                name: "mortgage-calculator"
+                port:
+                  number: 80
+---
+#apiVersion: autoscaling/v2
+#kind: HorizontalPodAutoscaler
+#metadata:
+#  name: mortgage-calculator-hpa
+#spec:
+#  scaleTargetRef:
+#    apiVersion: apps/v1
+#    kind: Deployment
+#    name: mortgage-calculator-deployment
+#  minReplicas: 1
+#  maxReplicas: 10
+#  metrics:
+#  - type: Resource
+#    resource:
+#      name: cpu
+#      target:
+#        type: Utilization
+#        # "averageValue" and "averageUtilization" are mutually exclusive. Keep only one active and other commented.
+#        # Measures average absolute value of CPU utilization
+#        #averageValue: 100m
+#        # Measures average % CPU utilization
+#        averageUtilization: 30
