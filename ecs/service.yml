@@ -4,18 +4,11 @@ Description: An example service that deploys in AWS VPC networking mode
              subnets and public IP addresses
 
 Parameters:
-  VpcId:
+  EnvironmentName:
     Type: String
-    Description: The VPC that the service is running inside of
-  PublicSubnetIds:
-    Type: List<AWS::EC2::Subnet::Id>
-    Description: List of public subnet ID's to put the load balancer and tasks in
-  ClusterName:
-    Type: String
-    Description: The name of the ECS cluster into which to launch capacity.
-  ECSTaskExecutionRole:
-    Type: String
-    Description: The role used to start up an ECS task
+    Default: production
+    Description: A name for the environment that this cloudformation will be part of.
+                 Used to locate other resources in the same environment.
   ServiceName:
     Type: String
     Default: web
@@ -23,7 +16,6 @@ Parameters:
   ImageUrl:
     Type: String
     #Default: public.ecr.aws/v8b9x4q0/mortgage-calc:latest
-    Default: 267244386833.dkr.ecr.us-east-1.amazonaws.com/mortgagecalculatorfaf80424/expressfunction9fcbc1barepo:expressfunction-c68ba8eb4fac-v1
     Description: The url of a docker image that contains the application process that
                  will handle the traffic for this service
   ContainerCpu:
@@ -56,7 +48,8 @@ Resources:
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
-      ExecutionRoleArn: !Ref ECSTaskExecutionRole
+      ExecutionRoleArn: 
+        Fn::ImportValue: !Sub "${EnvironmentName}:ECSTaskExecutionRole"
       ContainerDefinitions:
         - Name: !Ref ServiceName
           Cpu: !Ref ContainerCpu
@@ -82,14 +75,17 @@ Resources:
     DependsOn: PublicLoadBalancerListener
     Properties:
       ServiceName: !Ref ServiceName
-      Cluster: !Ref ClusterName
+      Cluster: 
+        Fn::ImportValue: !Sub "${EnvironmentName}:ECSCluster"
       LaunchType: FARGATE
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
           SecurityGroups:
             - !Ref ServiceSecurityGroup
-          Subnets: !Ref PublicSubnetIds
+          Subnets: 
+            - Fn::ImportValue: !Sub "${EnvironmentName}:PublicSubnetOne"
+            - Fn::ImportValue: !Sub "${EnvironmentName}:PublicSubnetTwo"
       DeploymentConfiguration:
         MaximumPercent: 200
         MinimumHealthyPercent: 75
@@ -106,7 +102,8 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Security group for service
-      VpcId: !Ref VpcId
+      VpcId: 
+        Fn::ImportValue: !Sub "${EnvironmentName}:VPCId"
 
   # Keeps track of the list of tasks for the service
   ServiceTargetGroup:
@@ -121,7 +118,8 @@ Resources:
       Port: 8080
       Protocol: HTTP
       UnhealthyThresholdCount: 10
-      VpcId: !Ref VpcId
+      VpcId: 
+        Fn::ImportValue: !Sub "${EnvironmentName}:VPCId"
       TargetGroupAttributes:
         - Key: deregistration_delay.timeout_seconds
           Value: 0
@@ -132,7 +130,8 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Access to the public facing load balancer
-      VpcId: !Ref VpcId
+      VpcId: 
+        Fn::ImportValue: !Sub "${EnvironmentName}:VPCId"
       SecurityGroupIngress:
         # Allow access to public facing ALB from any IP address
         - CidrIp: 0.0.0.0/0
@@ -144,7 +143,9 @@ Resources:
       LoadBalancerAttributes:
       - Key: idle_timeout.timeout_seconds
         Value: '30'
-      Subnets: !Ref PublicSubnetIds
+      Subnets: 
+        - Fn::ImportValue: !Sub "${EnvironmentName}:PublicSubnetOne"
+        - Fn::ImportValue: !Sub "${EnvironmentName}:PublicSubnetTwo"
       SecurityGroups:
         - !Ref PublicLoadBalancerSG
   PublicLoadBalancerListener:

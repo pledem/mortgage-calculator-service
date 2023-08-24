@@ -1,1 +1,2 @@
-sam deploy --template-file parent.yml --stack-name mortgage-calc-ecs-fargate --resolve-s3 --capabilities CAPABILITY_IAM
+sam deploy --template-file service.yml --stack-name mortgage-calc-ecs-service --resolve-s3 --capabilities CAPABILITY_IAM --parameter-overrides ParameterKey=ImageUrl,ParameterValue=<Image Name>
+

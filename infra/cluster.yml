@@ -2,6 +2,12 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: Empty ECS cluster that has no EC2 instances. It is designed
              to be used with AWS Fargate serverless capacity
 
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: production
+    Description: A name for the environment that this cloudformation will be part of.
+
 Resources:
   # This is authorizes ECS to manage resources on your
   # account on your behalf. This role is likely already created on your account
@@ -40,6 +46,10 @@ Outputs:
   ClusterName:
     Description: The ECS cluster into which to launch resources
     Value: !Ref ECSCluster
+    Export:
+      Name: !Sub '${EnvironmentName}:ECSCluster'
   ECSTaskExecutionRole:
     Description: The role used to start up a task
     Value: !Ref ECSTaskExecutionRole
+    Export:
+      Name: !Sub '${EnvironmentName}:ECSTaskExecutionRole'

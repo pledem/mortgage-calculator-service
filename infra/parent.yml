@@ -18,14 +18,3 @@ Resources:
     Type: AWS::Serverless::Application
     Properties:
       Location: cluster.yml
-
-  # This stack contains the container deployment
-  ServiceStack:
-    Type: AWS::Serverless::Application
-    Properties:
-      Location: service.yml
-      Parameters:
-        VpcId: !GetAtt VpcStack.Outputs.VpcId
-        PublicSubnetIds: !GetAtt VpcStack.Outputs.PublicSubnetIds
-        ClusterName: !GetAtt ClusterStack.Outputs.ClusterName
-        ECSTaskExecutionRole: !GetAtt ClusterStack.Outputs.ECSTaskExecutionRole
