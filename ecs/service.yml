@@ -16,8 +16,6 @@ Parameters:
   ImageUrl:
     Type: String
     #Default: public.ecr.aws/v8b9x4q0/mortgage-calc:latest
-    #Default: 267244386833.dkr.ecr.us-east-1.amazonaws.com/mortgagecalculatorfaf80424/expressfunction9fcbc1barepo:expressfunction-c68ba8eb4fac-v1
-    Default: 207949242725.dkr.ecr.us-east-1.amazonaws.com/lambdawebadaptertest1d822a2a1/expressfunction9fcbc1barepo:expressfunction-b8ddabc41e07-v1
     Description: The url of a docker image that contains the application process that
                  will handle the traffic for this service
   ContainerCpu:
