@@ -4,6 +4,7 @@
 - Deploy AWS Load Balancer Controller in the cluster
 
 ## Steps
+
 ```
 # Create EKS cluster with a Fargate profile and no other nodes
 
