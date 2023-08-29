@@ -1,3 +1,2 @@
-aws apprunner create-service \                                                                                            ─╯
---cli-input-json file://input.json \
---region us-east-2
+aws apprunner create-service \
+--cli-input-json file://input.json

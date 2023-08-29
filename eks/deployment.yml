@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: mortgage-calculator-app-container
-        image: 267244386833.dkr.ecr.us-east-1.amazonaws.com/mortgagecalculatorfaf80424/expressfunction9fcbc1barepo:expressfunction-c68ba8eb4fac-v1
+        image: ${IMAGE_URL}
         imagePullPolicy: Always
         resources:
           limits:

@@ -2,12 +2,12 @@
     "ServiceName": "mortgage-calculator",
     "SourceConfiguration": {
         "ImageRepository": {
-            "ImageIdentifier": "267244386833.dkr.ecr.us-east-1.amazonaws.com/mortgagecalculatorfaf80424/expressfunction9fcbc1barepo:expressfunction-c68ba8eb4fac-v1",
+            "ImageIdentifier": "132677568001.dkr.ecr.us-east-1.amazonaws.com/mortgagecalculatorlambda88b19bac/expressfunction9fcbc1barepo:expressfunction-c68ba8eb4fac-v1",
             "ImageRepositoryType": "ECR"
         },
         "AutoDeploymentsEnabled": false,
         "AuthenticationConfiguration": {
-            "AccessRoleArn": "arn:aws:iam::267244386833:role/service-role/AppRunnerECRAccessRole"
+            "AccessRoleArn": "arn:aws:iam::132677568001:role/service-role/AppRunnerECRAccessRole"
         }
     },
     "InstanceConfiguration": {
