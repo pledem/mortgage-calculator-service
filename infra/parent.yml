@@ -1,8 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: Parent stack that deploys VPC, Amazon ECS cluster for AWS Fargate,
-             and a serverless Amazon ECS service deployment that hosts
-             the task containers on AWS Fargate
+Description: Parent stack that deploys VPC and Amazon ECS cluster for AWS Fargate.
 
 Resources:
 

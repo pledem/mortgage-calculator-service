@@ -57,7 +57,7 @@ Once the deployment is completed, the SAM CLI will print out the stack's outputs
 ---------------------------------------------------------------------------------------------------------
 OutputKey-Description                        OutputValue
 ---------------------------------------------------------------------------------------------------------
-PetStoreApi - URL for application            https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/
+RateApi - URL for application            https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/
 ---------------------------------------------------------------------------------------------------------
 ...
 
@@ -78,3 +78,7 @@ Use curl to verify the docker container works.
 ```shell
 $ curl localhost:8080/ 
 ```
+
+## Delete the stack 
+
+```sam delete```

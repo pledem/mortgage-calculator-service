@@ -1,8 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: An example service that deploys in AWS VPC networking mode
-             on AWS Fargate. Service runs with networking in public
-             subnets and public IP addresses
-
+Description: Deploys an Amazon ECS service deployment that hosts
+             the task containers on AWS Fargate
 Parameters:
   EnvironmentName:
     Type: String
@@ -15,7 +13,6 @@ Parameters:
     Description: A name for the service
   ImageUrl:
     Type: String
-    #Default: public.ecr.aws/v8b9x4q0/mortgage-calc:latest
     Description: The url of a docker image that contains the application process that
                  will handle the traffic for this service
   ContainerCpu:
