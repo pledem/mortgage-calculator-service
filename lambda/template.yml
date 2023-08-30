@@ -1,9 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  sam-app
-
-  Sample SAM Template for sam-app
+Description: Creates a container image, pushes it to ECR and deploys a Lambda function from the image
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -15,7 +12,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       PackageType: Image
-      #ImageUri: public.ecr.aws/v8b9x4q0/mortgage-calc:latest
       MemorySize: 1024
       Environment:
         Variables:
