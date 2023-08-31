@@ -2,7 +2,7 @@
     "ServiceName": "mortgage-calculator",
     "SourceConfiguration": {
         "ImageRepository": {
-            "ImageIdentifier": "132677568001.dkr.ecr.us-east-1.amazonaws.com/mortgagecalculatorlambda88b19bac/expressfunction9fcbc1barepo:expressfunction-c68ba8eb4fac-v1",
+            "ImageIdentifier": "132677568001.dkr.ecr.us-east-1.amazonaws.com/mortgagecalculatorlambda88b19bac/expressfunction9fcbc1barepo:expressfunction-54daa9372c65-v1",
             "ImageRepositoryType": "ECR"
         },
         "AutoDeploymentsEnabled": false,
